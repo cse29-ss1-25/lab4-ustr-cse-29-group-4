@@ -90,7 +90,6 @@ removed from the original string.
 Returns the original string if index is out of bounds.
 */
 UStr removeAt(UStr s, int32_t index) {
-	// TODO: implement this
 	if (index < 0 || index >= s.codepoints) {
         return new_ustr(s.contents);
     }
@@ -120,7 +119,7 @@ Given a string s, return s reversed.
 Example: reverse("apples🍎 and bananas🍌") = "🍌sananab dna 🍎selppa")
 */
 UStr reverse(UStr s) {
-	// TODO: implement this
+
 	if (s.codepoints <= 1) {
         return new_ustr(s.contents);
     }
