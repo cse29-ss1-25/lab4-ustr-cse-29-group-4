@@ -57,8 +57,27 @@ removed from the original string.
 Returns the original string if index is out of bounds.
 */
 UStr removeAt(UStr s, int32_t index) {
-	// TODO: implement this
-
+	if (index < 0 || index >= s.codepoints) {
+        return new_ustr(s.contents);
+    }
+    int byte_index = 0;
+    int current_cp = 0;
+    while (current_cp < index) {
+        byte_index += utf8_codepoint_size(s.contents[byte_index]);
+        current_cp++;
+    }
+    int remove_start = byte_index;
+    int remove_size = utf8_codepoint_size(s.contents[remove_start]);
+    int new_bytes = s.bytes - remove_size;
+    char* result = malloc(new_bytes + 1); 
+    memcpy(result, s.contents, remove_start);
+    memcpy(result + remove_start,
+           s.contents + remove_start + remove_size,
+           s.bytes - remove_start - remove_size);
+    result[new_bytes] = '\0'; 
+    UStr final = new_ustr(result);
+    free(result);
+    return final;
 }
 
 /*
