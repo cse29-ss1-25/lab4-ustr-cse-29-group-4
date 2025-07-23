@@ -39,7 +39,7 @@ Returns an empty string on invalid range.
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
 
-}
+x`}
 
 /*
 Given 2 strings s1 and s2, returns a string that is the result of 
@@ -67,7 +67,27 @@ Given a string s, return s reversed.
 Example: reverse("apples🍎 and bananas🍌") = "🍌sananab dna 🍎selppa")
 */
 UStr reverse(UStr s) {
-	// TODO: implement this
+	if (s.codepoints <= 1) {
+        return new_ustr(s.contents);
+    }
+    char* reversed = malloc(s.bytes + 1);
+    int write_index = 0;
+    int i = s.bytes - 1;
+    while (i >= 0) {
+        int cp_start = i;
+        while (cp_start > 0 && (s.contents[cp_start] & 0xC0) == 0x80) {
+            cp_start--;
+        }
+        int cp_size = utf8_codepoint_size(s.contents[cp_start]);
+        memcpy(reversed + write_index, s.contents + cp_start, cp_size);
+        write_index += cp_size;
+
+        i = cp_start - 1;
+    }
+    reversed[write_index] = '\0';
+    UStr result = new_ustr(reversed);
+    free(reversed);
+    return result;
 
 }
 
