@@ -39,7 +39,7 @@ Returns an empty string on invalid range.
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
 
-x`}
+}
 
 /*
 Given 2 strings s1 and s2, returns a string that is the result of 
